@@ -1,3 +1,5 @@
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.protobuf.TextFormat;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -10,11 +12,15 @@ public class Client {
                 .usePlaintext()
                 .build();
 
+        final String s = JSON.toJSONString(new JsonMessage("name", 18));
 
         final GreeterGrpc.GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(channel);
-        final Hello.HelloRequest request = Hello.HelloRequest.newBuilder().setRequest("我是request").build();
+        final Hello.HelloRequest request = Hello.HelloRequest.newBuilder().setRequest(s).build();
         final Hello.HelloReply reply = stub.sayHello(request);
-        System.out.println(TextFormat.printer().escapingNonAscii(false).printToString(reply));
+        final JsonMessage jsonObject = JSON.parseObject(reply.getReply(),JsonMessage.class);
+        System.out.println(jsonObject);
+//        System.out.println(TextFormat.printer().escapingNonAscii(false).printToString(reply));
+
 
     }
 }
