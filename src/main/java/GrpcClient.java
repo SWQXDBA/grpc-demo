@@ -30,6 +30,14 @@ public class GrpcClient {
     }
 
 
+    /**
+     * 往一个服务器发送消息
+     * @param serverName 服务器名字 用以区分多个服务器
+     * @param path 访问的api路径 用来判断是调用哪个接口
+     * @param message 消息体
+     * @param resultType 返回结果类型
+     * @return
+     */
     public <T> T callSingle(String serverName,String path,Object message,Class<T> resultType){
 
         //构建请求消息
@@ -55,8 +63,26 @@ public class GrpcClient {
        return JSON.parseObject(responseMessage.bodyJson,resultType);
 
     }
+    /**
+     *
+     * @param serverName 服务器名字 用以区分多个服务器
+     * @param path 访问的api路径 用来判断是调用哪个接口
+     * @param message 消息体
+     * @return
+     */
     public void sendSingle(String serverName,String path,Object message){
-        sendSingle(serverName,path,message);
+        //构建请求消息
+        RequestMessage requestMessage = new RequestMessage();
+        requestMessage.path = path;
+        requestMessage.bodyJson = JSON.toJSONString(message);
+
+        final ManagedChannel channel = channels.get(serverName);
+
+        //构建请求
+        WebApiServiceGrpc.WebApiServiceBlockingStub stub = WebApiServiceGrpc.newBlockingStub(channel);
+        final WebApi.Request request = WebApi.Request.newBuilder().setRequestMessageJson(JSON.toJSONString(requestMessage)).build();
+        //发送请求
+        stub.doRequest(request);
     }
     public static void main(String[] args) {
         GrpcClient client = new GrpcClient();
