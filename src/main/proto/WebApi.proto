@@ -1,0 +1,15 @@
+syntax = "proto3";
+service WebApiService {
+  // Sends a greeting
+  rpc doRequest (Request) returns (Response) {}
+}
+
+// The request message containing the user's name.
+message Request {
+ string requestMessageJson  = 1;
+}
+
+// The response message containing the greetings
+message Response {
+  string responseMessageJson  = 1;
+}
