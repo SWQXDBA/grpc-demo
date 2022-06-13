@@ -1,4 +1,4 @@
-package message;
+package example.Main.message;
 
 public class ResponseMessage {
     public boolean success;

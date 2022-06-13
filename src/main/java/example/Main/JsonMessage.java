@@ -1,3 +1,5 @@
+package example.Main;
+
 public class JsonMessage {
     public JsonMessage(String name, int age) {
         this.name = name;
@@ -28,7 +30,7 @@ public class JsonMessage {
 
     @Override
     public String toString() {
-        return "JsonMessage{" +
+        return "example.Main.JsonMessage{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
                 '}';

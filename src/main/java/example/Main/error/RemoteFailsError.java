@@ -1,4 +1,4 @@
-package error;
+package example.Main.error;
 
 public class RemoteFailsError extends RuntimeException {
     public RemoteFailsError(String message) {
@@ -6,4 +6,5 @@ public class RemoteFailsError extends RuntimeException {
     }
 
     public String message;
+
 }
